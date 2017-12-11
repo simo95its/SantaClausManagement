@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SantaClausManagement", "San
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SantaClausManagement.Tests", "SantaClausManagement.Tests\SantaClausManagement.Tests.csproj", "{F410ECF1-B48A-467B-8091-A8C2984BE12E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SantaClausUtility", "SantaClausUtility\SantaClausUtility.csproj", "{355DDD48-9D87-48AE-AE6C-2ECB7CDBFB7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F410ECF1-B48A-467B-8091-A8C2984BE12E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F410ECF1-B48A-467B-8091-A8C2984BE12E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F410ECF1-B48A-467B-8091-A8C2984BE12E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{355DDD48-9D87-48AE-AE6C-2ECB7CDBFB7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{355DDD48-9D87-48AE-AE6C-2ECB7CDBFB7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{355DDD48-9D87-48AE-AE6C-2ECB7CDBFB7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{355DDD48-9D87-48AE-AE6C-2ECB7CDBFB7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
