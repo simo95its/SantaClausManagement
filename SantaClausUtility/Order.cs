@@ -21,6 +21,6 @@ namespace SantaClausUtility
         public List<Toy> Toys { get; set; }
 
         [BsonElement("requestDate")]
-        public DateTime RequestDate { get; set; } //TODO requestDate is  in stringFormat
+        public DateTime RequestDate { get; set; }
     }
 }
