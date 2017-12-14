@@ -7,10 +7,10 @@ namespace SantaClausUtility
 {
     public interface ICRUD<TypeElement, TypeId>
     {
-        bool Create(Func<TypeId, bool> creation, OptionalAttribute element);
-        TypeElement Read(Func<TypeId, TypeElement> read, OptionalAttribute id);
-        bool Update(Func<TypeId, bool> update, OptionalAttribute element);
-        bool Delete(Func<TypeId, bool> deletion, OptionalAttribute element);
+        TypeElement Create(Func<TypeId, TypeElement> creation, TypeId id);
+        TypeElement Read(Func<TypeId, TypeElement> read, TypeId id);
+        TypeElement Update(Func<TypeId, TypeElement> update, OptionalAttribute element);
+        TypeElement Delete(Func<TypeId, TypeElement> deletion, TypeId id);
     }
     /*
     public interface ICRUD<TypeElement, TypeId>
