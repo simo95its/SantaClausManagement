@@ -31,7 +31,7 @@ namespace SantaClausUtility
             return entity;
         }
 
-        IDatabaseEntity ICRUD<IDatabaseEntity, string>.Update(Func<string, IDatabaseEntity> update, OptionalAttribute element)
+        IDatabaseEntity ICRUD<IDatabaseEntity, string>.Update(Func<string, IDatabaseEntity> update, string element)
         {
             throw new NotImplementedException();
         }

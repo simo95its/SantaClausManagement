@@ -53,7 +53,7 @@ namespace SantaClausUtility
             return read(Settings);
         }
 
-        Database<T> ICRUD<Database<T>, DatabaseSettings>.Update(Func<DatabaseSettings, Database<T>> update, OptionalAttribute element)
+        Database<T> ICRUD<Database<T>, DatabaseSettings>.Update(Func<DatabaseSettings, Database<T>> update, DatabaseSettings id)
         {
             return update(Settings);
         }

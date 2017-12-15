@@ -9,7 +9,7 @@ namespace SantaClausUtility
     {
         TypeElement Create(Func<TypeId, TypeElement> creation, TypeId id);
         TypeElement Read(Func<TypeId, TypeElement> read, TypeId id);
-        TypeElement Update(Func<TypeId, TypeElement> update, OptionalAttribute element);
+        TypeElement Update(Func<TypeId, TypeElement> update, TypeId id);
         TypeElement Delete(Func<TypeId, TypeElement> deletion, TypeId id);
     }
     /*
