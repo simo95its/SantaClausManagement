@@ -10,6 +10,8 @@ namespace SantaClausData.Models
     public class Toy
     {
         [BsonId]
+        [BsonIgnoreIfNull]
+        [BsonIgnoreIfDefault]
         public ObjectId Id { get; set; }
 
         [BsonElement("name")]

@@ -8,13 +8,16 @@ using SantaClausData.Models;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Web.Http.Cors;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.IO;
+using System.IO;
 
 namespace SantaClausData.Controllers
 {
     public class OrdersController : ApiController
     {
         // GET: api/Orders
-        public IEnumerable<Order> GetOrders()
+        public IEnumerable<Order> Get()
         {
             MongoClient client = new MongoClient(new MongoUrl("mongodb://simone:simone@ds044787.mlab.com:44787/santa_claus_data"));
             IMongoDatabase db = client.GetDatabase("santa_claus_data");
@@ -24,20 +27,18 @@ namespace SantaClausData.Controllers
         }
         
         // GET: api/Orders/5
-        public IHttpActionResult GetOrders(string id)
+        public IHttpActionResult Get(string id)
         {
             ObjectId objectId = new ObjectId(id);
             MongoClient client = new MongoClient(new MongoUrl("mongodb://simone:simone@ds044787.mlab.com:44787/santa_claus_data"));
             IMongoDatabase db = client.GetDatabase("santa_claus_data");
             IMongoCollection<Order> orders = db.GetCollection<Order>("orders");
-            /**/
             var filter = Builders<Order>.Filter.Eq("_id", objectId);
             var order = orders.Find(filter).First();
             if (order == null)
             {
                 return NotFound();
             }
-            /**/
             return Ok(order);
         }
 

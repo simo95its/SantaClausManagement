@@ -11,6 +11,8 @@ using MongoDB.Bson;
 using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json;
+using MongoDB.Bson.Serialization;
+using System.IO;
 
 namespace SantaClausManagement.Controllers
 {
@@ -43,17 +45,19 @@ namespace SantaClausManagement.Controllers
             //    }
             //    );
             //}
-            string uriOrders = "http://localhost:50546/api/orders/";
-            string uriToys = "http://localhost:50546/api/toys/";
+            string uriOrders = "http://localhost:50546/api/orders";
+            string uriToys = "http://localhost:50546/api/toys";
 
             using (WebClient webClient = new WebClient())
             {
-                model.Orders = JsonConvert.DeserializeObject<List<Order>>(webClient.DownloadString(uriOrders));
+                webClient.Headers.Add("Content-Type", "application/bson");
+                model.Toys = BsonSerializer.Deserialize<List<Toy>>(webClient.DownloadString(uriOrders));
             }
 
             using (WebClient webClient = new WebClient())
             {
-                model.Toys = JsonConvert.DeserializeObject<List<Toy>>(webClient.DownloadString(uriToys));
+                webClient.Headers.Add("Content-Type", "application/bson");
+                model.Toys = BsonSerializer.Deserialize<List<Toy>>(webClient.DownloadString(uriToys));
             }
 
             return View(model);
