@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Santa's Management - @ViewBag.Title</title>
+    @Styles.Render("~/Content/bootstrap.min.css")
+    @Styles.Render("~/Content/Custom/css/style.css")
+    @Styles.Render("https://fonts.googleapis.com/css?family=Lora")
+    <!--[if lt IE 9]>
+    @Scripts.Render("https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js")
+    @Scripts.Render("~/Scripts/respond.min.js")
+    <![endif]-->
+</head>
+
+<body class="@(ViewContext.RouteData.Values["action"].ToString() == "Index" ? "image-bcg-home" : "image-bcg-login")">
+    @RenderBody()
+    @Scripts.Render("~/Scripts/jquery-1.12.4.min.js")
+    @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @if (ViewContext.RouteData.Values["action"].ToString() == "Index")
+    {
+        @Scripts.Render("~/Scripts/Custom/modal.js")
+    }
+</body>
+</html>

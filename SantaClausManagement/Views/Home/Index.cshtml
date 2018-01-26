@@ -1,0 +1,121 @@
+﻿@{
+    Layout = "~/Views/Shared/_Home.cshtml";
+    ViewBag.Title = "Home Page";
+}
+
+@using SantaClausManagement.Models
+@using SantaClausManagement.Util
+@model IndexViewModel
+
+<div class="@((bool)Session["IsAdmin"] ? "container" : "container-fluid")">
+    <div class="col-md-6 table-responsive">
+        <div class="table-style">
+            <h2 class="@((bool)Session["IsAdmin"] ? string.Empty : "text-center")">Kids's requests</h2>
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            @if (!(bool)Session["IsAdmin"])
+	                        {
+		                        <th>Details</th>
+	                        }
+                            <th>Child Name</th>
+                            @if((bool)Session["IsAdmin"])
+                            {
+                                <th>Total Price</th>
+                            }
+                            <th>Request Date</th>
+                            <th>Status Request</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.Orders)
+                        {
+                            <tr>
+                                @if (!((bool)Session["IsAdmin"]))
+                                {
+                                    <td>
+                                        <span id="modal-details-@order.Id" class="glyphicon glyphicon-search lens-icon" aria-hidden="true" data-toggle="modal" data-target="#requestDetail" onclick="modal($('#modal-details-@order.Id').attr('data-order-id'))" data-order-id="@order.Id"></span>
+                                    </td>
+                                }
+                                <td>@order.Kid</td>
+                                @if ((bool)Session["IsAdmin"])
+                                {
+                                    <td>@order.TotalPrice</td>
+                                }
+                                <td>@order.RequestDate.ToShortDateString()</td>
+                                <td>
+                                    @{
+                                        Model.OrderStatus = order.Status;
+                                    }
+                                    @Model.OrderStatus.GetDisplayName()
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+        </div>
+    </div>
+    <div class="col-md-6 table-responsive">
+        <div class="table-style">
+            <h2 class="@((bool)Session["IsAdmin"] == true ? "" : "text-center")">Toys' Storage</h2>
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Toy Name</th>
+                        <th>Price</th>
+                        <th>Total amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var toy in Model.Toys)
+                    {
+                        <tr>
+                            <td>@toy.Name</td>
+                            <td>@toy.Cost</td>
+                            <td>@toy.Amount</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@if (!(bool)Session["IsAdmin"])
+{
+    <!-- Modal -->
+    <div class="modal fade" id="requestDetail" tabindex="-1" role="dialog" aria-labelledby="requestLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-center" id="requestLabel">Request Detail</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="detail-request">
+                        <ul class="detail-list">
+                            <li id="modal-childName">Child Name:</li>
+                            <li id="modal-requestDate">Request Date:</li>
+                            <li>
+                                <div>
+                                    <p class="flex">
+                                        Status Request: @Html.EnumDropDownListFor(model => model.OrderStatus, new { @class = "form-control select" })
+                                    </p>
+                                </div>
+
+                            </li>
+                            <li>Toys' list: 
+                                <ul id="modal-toysList"></ul>
+                            </li>
+                        </ul>
+                        <div class="flex flex-center">
+                            <button type="submit" class="btn btn-default btn-login" style="margin:0 auto;">Change status</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

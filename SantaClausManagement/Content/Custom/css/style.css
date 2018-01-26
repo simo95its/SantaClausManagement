@@ -1,0 +1,85 @@
+html,body {
+	height:100%;
+}
+h2{
+    padding-bottom: 18px;
+}
+.nav-style{
+	background-color:#b30000;
+	 border:#870000;
+}
+.navbar-inverse .navbar-text, .navbar-inverse .navbar-nav>li>a{
+    color:#fff;
+}
+.navbar-inverse .navbar-nav>li>a:hover{
+    color:#000;
+}
+.detail-list{
+    list-style: none;
+    padding:20px;
+    line-height: 25px;
+}
+
+body {
+	 height: 100%;
+	 font-family: 'Lora', serif;
+}
+.image-bcg-home{
+	background-image: url("../img/pexels-photo-26049824.jpg");
+	background-size: cover;
+}
+.image-bcg-login {
+    background-image: url("../img/pexels-photo-260498.jpeg");
+    background-size: cover;
+    background-repeat:no-repeat;
+}
+.login{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:400px;
+    border: 1px solid #b30000;
+    border-radius: 10px;
+    padding: 30px 50px;
+    background-color: #fff;
+}
+.table-style {
+    border: 1px solid #b30000;
+    border-radius: 5px;
+    padding: 10px 20px;
+    background-color: white;
+
+    overflow-y: scroll;
+    height: 85vh;
+    margin:5px;
+}
+.lens-icon:hover{
+	color:#b30000;
+}
+h4{
+	font-size: 25px;
+}
+.flex{
+    display: flex;
+}
+.flex-center{
+    justify-content: center;
+}
+.btn-default:focus, .btn-default:active, .btn-default:active:hover,.btn-default:hover {
+	background-color: #ccc766;
+	color:#fff;
+	border-color:  #cbc563;
+}
+.select{
+	width:150px;
+	margin-left:15px;
+}
+.form-control:focus{
+	border-color:#e60000;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(230, 0, 0, .6);
+}
+h1{
+    padding-bottom: 18px;
+}
