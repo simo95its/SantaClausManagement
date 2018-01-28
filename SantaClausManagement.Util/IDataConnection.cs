@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SantaClausManagement.Util
 {
-    public interface IDataConnection
+    public interface IDataConnection : IUpdate
     {
         string Protocol { get; }
         string Username { get; }
@@ -17,7 +17,7 @@ namespace SantaClausManagement.Util
 
         object Connection { get; }
 
-        Dictionary<string, IQueryable> GetQueryableObjectsList(Dictionary<string, Type> mapper);
+        Dictionary<string, IQueryable> GetQueryableObjectsList();
 
         Dictionary<string, Type> Map();
     }

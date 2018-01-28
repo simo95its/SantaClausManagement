@@ -39,6 +39,55 @@ namespace SantaClausManagement.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(IndexViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Database db = new Database();
+                var order = db.GetOrderWithToyDetails(model.OrderId);
+                foreach (var toy in order.Toys)
+                {
+                    if (model.OrderStatus == order.Status)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    if (model.OrderStatus != Status.InProgress)
+                    {
+                        if (toy.Amount <= 0 || toy.Amount == null)
+                        {
+                            return View("Error");
+                        }
+                        else
+                        {
+                            db.SetAmountToy(toy.Id, toy.Amount - 1);
+                        }
+                    }
+                    else
+                    {
+                        db.SetAmountToy(toy.Id, toy.Amount + 1);
+                    }
+                }
+                try
+                {
+                    if (db.SetOrderStatus(model.OrderId, model.OrderStatus) == false)
+                    {
+                        throw new Exception();
+                    }
+                    return RedirectToAction("Index");
+                }
+                catch (Exception)
+                {
+                    throw ;
+                }
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
         private bool IsUserLogged()
         {
             return (Session["Email"] != null && Session["Password"] != null) ? true : false;
@@ -81,6 +130,14 @@ namespace SantaClausManagement.Controllers
             return View();
         }
 
+        public ActionResult Logout()
+        {
+            Session["Email"] = null;
+            Session["Password"] = null;
+            Session["ScreenName"] = null;
+            Session["IsAdmin"] = null;
+            return RedirectToAction("Login");
+        }
 
 
         public JsonResult Modal(string id)

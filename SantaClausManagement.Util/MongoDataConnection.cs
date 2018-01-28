@@ -13,9 +13,9 @@ using MongoDB.Bson;
 
 namespace SantaClausManagement.Util
 {
-    internal class MongoDataConnection : IDataConnection
+    public class MongoDataConnection : IDataConnection
     {
-        private Dictionary<string, Type> _mapper = new Dictionary<string, Type>();
+        protected Dictionary<string, Type> _mapper = new Dictionary<string, Type>();
 
         private static bool _isMapped = false;
 
@@ -49,7 +49,7 @@ namespace SantaClausManagement.Util
             get => ConfigurationManager.AppSettings["MongoDataIdentifier"];
         }
 
-        public object Connection
+        public virtual object Connection
         {
             get
             {
@@ -58,33 +58,22 @@ namespace SantaClausManagement.Util
             }
         }
 
-        public Dictionary<string, IQueryable> GetQueryableObjectsList(Dictionary<string, Type> mapper)
+        public virtual Dictionary<string, IQueryable> GetQueryableObjectsList()
         {
-                Dictionary<string, IQueryable> queryableObject = new Dictionary<string, IQueryable>();
-                /*
-                foreach (var type in mapper)
-                {
-                    MethodInfo method = typeof(IMongoDatabase).GetMethod("GetCollection")
-                                        .MakeGenericMethod(type.Value);
-                    var collection = method.Invoke(Connection, new object[] { type.Key });
-                    var collectionQueryable = collection.GetType().GetMethod("AsQueryable").MakeGenericMethod(type.Value).Invoke(collection, new object[] { });
-                    queryableObject.Add(type.Key, (IQueryable)collectionQueryable);
-                }
-                */
-                /**/
-                queryableObject.Add("users", ((IMongoDatabase)Connection).GetCollection<User>("users").AsQueryable());
-                queryableObject.Add("orders", ((IMongoDatabase)Connection).GetCollection<Order>("orders").AsQueryable());
-                queryableObject.Add("toys", ((IMongoDatabase)Connection).GetCollection<Toy>("toys").AsQueryable());
-                /**/
-                return queryableObject;
+            Dictionary<string, IQueryable> queryableObject = new Dictionary<string, IQueryable>();
+
+            queryableObject.Add("users", ((IMongoDatabase)Connection).GetCollection<User>("users").AsQueryable());
+            queryableObject.Add("orders", ((IMongoDatabase)Connection).GetCollection<Order>("orders").AsQueryable());
+            queryableObject.Add("toys", ((IMongoDatabase)Connection).GetCollection<Toy>("toys").AsQueryable());
+
+            return queryableObject;
         }
 
-        public Dictionary<string, Type> Map()
+        public virtual Dictionary<string, Type> Map()
         {
-            Dictionary<string, Type> mapper = new Dictionary<string, Type>();
-            mapper.Add("users", typeof(User));
-            mapper.Add("orders", typeof(Order));
-            mapper.Add("toys", typeof(Toy));
+            _mapper.Add("users", typeof(User));
+            _mapper.Add("orders", typeof(Order));
+            _mapper.Add("toys", typeof(Toy));
 
             if (!_isMapped)
             {
@@ -94,7 +83,7 @@ namespace SantaClausManagement.Util
                 RegisterOrder();
             }
             
-            return mapper;
+            return _mapper;
         }
 
         private static BsonClassMap<User> RegisterUser()
@@ -138,6 +127,33 @@ namespace SantaClausManagement.Util
                 cm.MapMember(c => c.Toys).SetElementName("toys");
                 cm.MapMember(c => c.RequestDate).SetElementName("requestDate");
             });
+        }
+
+        public virtual bool Update<TypeEntity, TypeProperty>(string id, string propertyName, TypeProperty value)
+        {
+            Type type = typeof(TypeEntity);
+            var typeMappedQuery = from tm in _mapper
+                        where tm.Value == type
+                        select tm.Key;
+            var typeMapped = typeMappedQuery.Single();
+
+            var filter = Builders<TypeEntity>.Filter.Eq("_id", new ObjectId(id));
+
+            var mapQuery = from map in BsonClassMap.GetRegisteredClassMaps()
+                           where map.ClassType == typeof(TypeEntity)
+                           select map;
+            var bsonMap = mapQuery.Single();
+            var queryMapMember = from member in bsonMap.DeclaredMemberMaps
+                                 where member.MemberName == propertyName
+                                 select member.ElementName;
+            var elementName = queryMapMember.Single();
+
+            var update = Builders<TypeEntity>.Update.Set(elementName, value);
+
+            var conn = Connection as IMongoDatabase;
+            var collection = conn.GetCollection<TypeEntity>(typeMapped);
+            var result = collection.FindOneAndUpdate(filter, update);
+            return result != null ? true : false;
         }
     }
 }

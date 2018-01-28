@@ -20,7 +20,7 @@
                     <p class="navbar-text">@Session["ScreenName"]</p>
                 </li>
                 <li>
-                    <a href="#">Logout</a>
+                    @Html.ActionLink("Logout", "Logout", "Home")
                 </li>
             </ul>
         </div>

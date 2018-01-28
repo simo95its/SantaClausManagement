@@ -15,7 +15,14 @@ namespace SantaClausManagement.Models
 
         public List<dynamic> Orders { get; set; }
 
+        //For Insert
         public Status OrderStatus { get; set; }
+
+        public string OrderId { get; set; }
+
+        //
+
+        public IndexViewModel() { }
 
         public IndexViewModel(bool isAdmin, IEnumerable<Toy> toys, IEnumerable<Order> orders)
         {

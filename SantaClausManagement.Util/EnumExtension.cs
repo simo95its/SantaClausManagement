@@ -12,15 +12,10 @@ namespace SantaClausManagement.Util
     {
         public static string GetDisplayName(this Enum e)
         {
-            var attr = GetDisplayAttribute(e);
+            Type type = e.GetType();
+            var field = type.GetField(e.ToString());
+            var attr = (field == null ? null : field.GetCustomAttribute<DisplayAttribute>());
             return attr != null ? attr.Name : e.ToString();
-        }
-
-        private static DisplayAttribute GetDisplayAttribute(object value)
-        {
-            Type type = value.GetType();
-            var field = type.GetField(value.ToString());
-            return field == null ? null : field.GetCustomAttribute<DisplayAttribute>();
         }
     }
 }

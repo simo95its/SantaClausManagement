@@ -94,26 +94,30 @@
                     <h4 class="modal-title text-center" id="requestLabel">Request Detail</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="detail-request">
+                    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "detail-request" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.OrderId, new { id = "modal-hidden" })
                         <ul class="detail-list">
                             <li id="modal-childName">Child Name:</li>
                             <li id="modal-requestDate">Request Date:</li>
                             <li>
                                 <div>
                                     <p class="flex">
-                                        Status Request: @Html.EnumDropDownListFor(model => model.OrderStatus, new { @class = "form-control select" })
+                                        Status Request: @Html.EnumDropDownListFor(model => model.OrderStatus, new { @class = "form-control select", id="modal-dropdown"})
                                     </p>
                                 </div>
 
                             </li>
-                            <li>Toys' list: 
+                            <li>
+                                Toys' list:
                                 <ul id="modal-toysList"></ul>
                             </li>
                         </ul>
                         <div class="flex flex-center">
                             <button type="submit" class="btn btn-default btn-login" style="margin:0 auto;">Change status</button>
                         </div>
-                    </form>
+                    }
                 </div>
             </div>
         </div>

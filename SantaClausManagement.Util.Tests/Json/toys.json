@@ -1,0 +1,68 @@
+[
+  {
+    "_id": "5a2e411b3ee013109cb98e44",
+    "name": "Barbie doll",
+    "cost": 65.24,
+    "amount": 7.0
+  },
+  {
+    "_id": "5a2e411b3ee013109cb98e45",
+    "name": "Mazinga robot",
+    "cost": 27.0,
+    "amount": 10.0
+  },
+  {
+    "_id": "5a2e411b3ee013109cb98e46",
+    "name": "Hot Wheels track",
+    "cost": 39.9,
+    "amount": 3.0
+  },
+  {
+    "_id": "5a2e411b3ee013109cb98e47",
+    "name": "Football shirt",
+    "cost": 24.9,
+    "amount": 8
+  },
+  {
+    "_id": "5a2e411b3ee013109cb98e48",
+    "name": "Puzzle",
+    "cost": 17.95,
+    "amount": 6.0
+  },
+  {
+    "_id": "5a2e411b3ee013109cb98e49",
+    "name": "iPhone 6",
+    "cost": 293.9,
+    "amount": 6.0
+  },
+  {
+    "_id": "5a2e411b3ee013109cb98e4a",
+    "name": "iPod",
+    "cost": 239.38,
+    "amount": 1.0
+  },
+  {
+    "_id": "5a2e411b3ee013109cb98e4b",
+    "name": "Pictionary",
+    "cost": 32.99,
+    "amount": 1.0
+  },
+  {
+    "_id": "5a2e411b3ee013109cb98e4c",
+    "name": "Jenga",
+    "cost": 14.68,
+    "amount": 6.0
+  },
+  {
+    "_id": "5a2e411b3ee013109cb98e4d",
+    "name": "Spider-man",
+    "cost": 21.8,
+    "amount": 1.0
+  },
+  {
+    "_id": "5a2e411b3ee013109cb98e4e",
+    "name": "Lego",
+    "cost": 31.94,
+    "amount": 10.0
+  }
+]

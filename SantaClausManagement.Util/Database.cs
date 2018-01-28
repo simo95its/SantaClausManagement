@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,28 +13,44 @@ namespace SantaClausManagement.Util
     {
         private Dictionary<string, IQueryable> _queryableObject;
 
-        //object TypeConnection { get; }
+        private IDataConnection _dataConnection;
 
         public Database()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            _dataConnection = Instantiate_With_Reflection();
+            Initialize();
+        }
 
-            var query = from type in assembly.GetTypes()
-                        where type != typeof(IDataConnection)
-                        && typeof(IDataConnection).IsAssignableFrom(type)
-                        select type;
+        public Database(Type type)
+        {
+            _dataConnection = Instantiate_With_Reflection(type);
+            Initialize();
+        }
 
-            var result = query.SingleOrDefault();
-            /*
-            if (result != null)
+        private IDataConnection Instantiate_With_Reflection([Optional] Type type)
+        {
+            Assembly assembly;
+            if (type != null)
             {
-                TypeConnection = result;
+                assembly = Assembly.GetAssembly(type);
             }
-            */
-            var dataConnection = Activator.CreateInstance(result) as IDataConnection;
-            
-            var mapper = dataConnection.Map();
-            _queryableObject = dataConnection.GetQueryableObjectsList(mapper);
+            else
+            {
+                assembly = Assembly.GetExecutingAssembly();
+            }
+            var query = from typeAssembly in assembly.GetTypes()
+                        where typeAssembly != typeof(IDataConnection)
+                        && typeof(IDataConnection).IsAssignableFrom(typeAssembly)
+                        select typeAssembly;
+            var result = query.SingleOrDefault();
+
+            return Activator.CreateInstance(result) as IDataConnection;
+        }
+
+        private void Initialize()
+        {
+            var mapper = _dataConnection.Map();
+            _queryableObject = _dataConnection.GetQueryableObjectsList();
         }
 
         public User GetUser(string email, string hash)
@@ -92,6 +109,31 @@ namespace SantaClausManagement.Util
                         select order;
 
             return query.SingleOrDefault();
+        }
+
+        public Order GetOrderWithToyDetails(string id)
+        {
+            var order = GetOrder(id);
+            var toys = GetAllToys();
+            var query = from toy in order.Toys
+                        join toyDetails in toys
+                        on toy.Name equals toyDetails.Name
+                        orderby order.RequestDate descending
+                        select toyDetails;
+            order.Toys = query.ToList();
+            return order;
+        }
+
+        public bool SetAmountToy(string id, int? amount)
+        {
+            string propertyName = typeof(Toy).GetProperty("Amount").Name;
+            return _dataConnection.Update<Toy, int?>(id, propertyName, amount);
+        }
+
+        public bool SetOrderStatus(string id, Status status)
+        {
+            string propertyName = typeof(Order).GetProperty("Status").Name;
+            return _dataConnection.Update<Order, Status>(id, propertyName, status);
         }
     }
 }

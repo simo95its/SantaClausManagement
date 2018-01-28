@@ -12,7 +12,7 @@ namespace SantaClausManagement.Util
         [Display(Name = "In Progress")]
         InProgress = 0,
         [Display(Name = "Ready To Be Sent")]
-        ReadyToBeSent = 1, //(if all thetoys requested are available)
+        ReadyToBeSent = 1, 
         [Display(Name = "Done")]
         Done = 2
     }
